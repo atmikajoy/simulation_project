@@ -1,0 +1,41 @@
+#include <iostream>
+#include <cstdio>
+#include "tee.h"
+#include <sstream>
+#include <fstream>
+
+template struct atmik::util::basic_teebuf<char>;
+template struct atmik::util::basic_teestream<char>;
+
+int main()
+{
+    std::ofstream file("test_it.txt");
+
+    atmik::util::teestream tstm( file, std::cout);
+
+    tstm << std::ifstream(__FILE__).rdbuf();
+
+    /*
+    std::stringbuf sbuf(std::ios::out);
+
+    atmik::util::basic_teebuf<char> tbuf( std::addressof(sbuf), std::cout.rdbuf() );
+
+    std::ostream test_stm(std::addressof(tbuf));
+
+    test_stm << "this is a test\n" << 12345 << "\nend of test\n";
+
+    std::string str = sbuf.str();
+
+    std::printf("\n\n\nstringbuf contains:\n '%s'\n", str.c_str());
+
+    /*
+    std::cout.sync_with_stdio(false);
+
+    for (int i = 0; i < 20; ++i)
+    {
+        std::printf("from printf: %d   ", i);
+        std::cout << "from cout: " << i ;
+        std::puts("");
+    }
+    */
+}
